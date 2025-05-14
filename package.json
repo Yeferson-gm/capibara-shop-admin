@@ -1,0 +1,19 @@
+{
+  "name": "shein-admin",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev --host",
+    "build": "astro build",
+    "preview": "astro preview --host",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^8.1.4",
+    "@astrojs/vue": "^5.0.13",
+    "@tailwindcss/vite": "^4.1.6",
+    "astro": "^5.7.13",
+    "tailwindcss": "^4.1.6",
+    "vue": "^3.5.13"
+  }
+}

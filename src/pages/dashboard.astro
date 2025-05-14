@@ -1,0 +1,238 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/header.astro';
+import Footer from '@/components/footer.astro';
+---
+
+<Layout title="Dashboard - Agregar Producto" description="Formulario para agregar nuevos productos al inventario">
+    <Header />
+    <div class="container mx-auto max-w-5xl py-10 px-4">
+
+    <div class="mb-10 text-center">
+      <h1 class="text-4xl font-bold text-slate-800">
+        <i class="fas fa-box-open mr-3 text-blue-600"></i>
+        Agregar Nuevo Producto
+      </h1>
+      <p class="text-slate-600 mt-3 text-lg">Complete el formulario para añadir un nuevo producto al inventario.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-xl font-semibold text-slate-700 mb-4 flex items-center">
+                <i class="fas fa-plus-circle mr-2 text-blue-500"></i>
+                Crear Nueva Categoría
+            </h3>
+            <div class="flex items-center space-x-3">
+                <input 
+                    type="text" 
+                    id="newCategoryNameInput" 
+                    class="form-input flex-grow rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30" 
+                    placeholder="Nombre de la categoría"
+                >
+                <button 
+                    type="button" 
+                    id="createCategoryBtn" 
+                    class="flex items-center justify-center py-2.5 px-5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                    <i class="fas fa-plus mr-2"></i>Crear
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-xl font-semibold text-slate-700 mb-4 flex items-center">
+                <i class="fas fa-stream mr-2 text-blue-500"></i>
+                Categorías Existentes
+            </h3>
+            <div id="existingCategoriesContainer" class="flex flex-wrap gap-3">
+                </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-2xl p-6 md:p-8">
+      <form id="productForm">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-6">
+          <div class="space-y-6">
+            <div>
+              <label for="productName" class="block text-sm font-medium text-slate-700 mb-1.5">
+                <i class="fas fa-tag mr-1.5 text-blue-500"></i>
+                Nombre del Producto
+              </label>
+              <input 
+                type="text" 
+                id="productName" 
+                class="form-input w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30" 
+                placeholder="Ej: Camiseta Estampada Premium"
+              >
+            </div>
+
+            <div>
+              <label for="categorySelect" class="block text-sm font-medium text-slate-700 mb-1.5">
+                <i class="fas fa-folder mr-1.5 text-blue-500"></i>
+                Categoría
+              </label>
+              <select id="categorySelect" class="form-select w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30">
+                <option value="" selected disabled>Seleccione una categoría</option>
+                </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">
+                <i class="fas fa-ruler mr-1.5 text-blue-500"></i>
+                Tallas Disponibles
+              </label>
+              <div class="flex flex-wrap gap-x-4 gap-y-2">
+                {['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'Talla Única'].map(size => (
+                  <label class="flex items-center">
+                    <input type="checkbox" class="form-checkbox text-blue-600 rounded border-slate-300 focus:ring-blue-500 focus:ring-opacity-30">
+                    <span class="ml-2 text-sm text-slate-600">{size}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="price" class="block text-sm font-medium text-slate-700 mb-1.5">
+                  <i class="fas fa-dollar-sign mr-1.5 text-blue-500"></i> {/* Cambiado icono a dollar */}
+                  Precio
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-slate-500 sm:text-sm">$</span>
+                  </div>
+                  <input 
+                    type="text" 
+                    id="price" 
+                    class="form-input pl-7 w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30" 
+                    placeholder="99.99"
+                  >
+                </div>
+              </div>
+              <div>
+                <label for="stock" class="block text-sm font-medium text-slate-700 mb-1.5">
+                  <i class="fas fa-cubes mr-1.5 text-blue-500"></i>
+                  Stock
+                </label>
+                <input 
+                  type="number" 
+                  id="stock" 
+                  class="form-input w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30" 
+                  placeholder="50"
+                  min="0"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">
+                <i class="fas fa-images mr-1.5 text-blue-500"></i>
+                Imágenes del Producto
+              </label>
+              
+              <div class="mb-3">
+                <div class="flex items-center space-x-4">
+                  <label class="flex items-center">
+                    <input type="radio" id="uploadImageRadio" name="imageMethod" value="upload" checked class="text-blue-600 focus:ring-blue-500">
+                    <span class="ml-2 text-sm text-slate-600">Subir imagen</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" id="urlImageRadio" name="imageMethod" value="url" class="text-blue-600 focus:ring-blue-500">
+                    <span class="ml-2 text-sm text-slate-600">URL de imagen</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div id="uploadContainer" class="dropzone rounded-lg p-4 text-center cursor-pointer border-2 border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                <div class="py-6 flex flex-col items-center">
+                  <i class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-3"></i>
+                  <p class="text-slate-600 mb-1 font-medium">Haz clic para subir o arrastra y suelta</p>
+                  <p class="text-xs text-slate-500">PNG, JPG, JPEG (máx. 2MB)</p>
+                </div>
+                <input type="file" class="hidden" id="fileUploadInput" accept="image/png, image/jpeg, image/jpg" multiple>
+              </div>
+              
+              <div id="urlContainer" class="hidden">
+                <input 
+                  type="url" 
+                  id="imageURLInput" 
+                  class="form-input w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30" 
+                  placeholder="https://ejemplo.com/imagen.jpg"
+                >
+              </div>
+            </div>
+
+            <div id="imagePreviewContainer" class="hidden">
+              <label class="block text-sm font-medium text-slate-700 mb-2">
+                <i class="fas fa-eye mr-1.5 text-blue-500"></i>
+                Vista Previa de Imágenes
+              </label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="imagePreviewsGrid">
+                </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1.5">
+                <i class="fas fa-palette mr-1.5 text-blue-500"></i>
+                Colores Disponibles
+              </label>
+              <div class="flex items-center space-x-2 mb-3">
+                <input 
+                  type="text" 
+                  id="colorNameInput" 
+                  class="form-input rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30 flex-grow" 
+                  placeholder="Nombre del color (ej: Rojo Pasión)"
+                >
+                <input 
+                  type="color" 
+                  id="colorPickerInput" 
+                  class="h-10 w-10 rounded-md cursor-pointer border-slate-300 shadow-sm"
+                >
+                <button 
+                  type="button" 
+                  id="addColorBtn" 
+                  class="h-10 w-10 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white transition-colors shadow-sm"
+                  title="Agregar color"
+                >
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              <div id="colorsContainer" class="flex flex-wrap gap-2">
+                </div>
+            </div>
+
+            <div>
+              <label for="primaryColorSelect" class="block text-sm font-medium text-slate-700 mb-1.5">
+                <i class="fas fa-paint-brush mr-1.5 text-blue-500"></i> {/* Cambiado icono */}
+                Color Principal del Producto
+              </label>
+              <select id="primaryColorSelect" class="form-select w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-30">
+                <option value="" selected disabled>Seleccione un color de los agregados</option>
+                </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
+          <button type="button" class="flex items-center justify-center py-2.5 px-5 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm">
+            <i class="fas fa-times mr-2"></i>
+            Cancelar
+          </button>
+          <button type="button" class="flex items-center justify-center py-2.5 px-5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-slate-800 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-700">
+            <i class="fas fa-save mr-2"></i>
+            Guardar Producto
+          </button>
+          <button type="button" class="flex items-center justify-center py-2.5 px-5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+            <i class="fas fa-eye mr-2"></i>
+            Ver Productos Publicados
+            <i class="fas fa-arrow-right ml-2"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+    <Footer />
+</Layout>
